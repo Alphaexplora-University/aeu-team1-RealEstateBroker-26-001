@@ -17,10 +17,10 @@ interface FilterSidebarProps {
 const NEIGHBORHOODS = ['Downtown', 'Heights', 'Old Town', 'Westside', 'Arts District', 'Harbor'];
 
 export function FilterSidebar({ filters, setFilters, onReset }: FilterSidebarProps) {
-  const handleNeighborhoodToggle = (neighborhood: string) => {
-    const newNeighborhoods = filters.neighborhoods.includes(neighborhood)
-      ? filters.neighborhoods.filter((n) => n !== neighborhood)
-      : [...filters.neighborhoods, neighborhood];
+  const handleNeighborhoodChange = (neighborhood: string, checked: boolean) => {
+    const newNeighborhoods = checked
+      ? [...filters.neighborhoods, neighborhood]
+      : filters.neighborhoods.filter((n) => n !== neighborhood);
     setFilters({ ...filters, neighborhoods: newNeighborhoods });
   };
 
@@ -56,12 +56,12 @@ export function FilterSidebar({ filters, setFilters, onReset }: FilterSidebarPro
             <Label className="text-xs font-bold uppercase tracking-widest text-gray-400">Neighborhoods</Label>
             <div className="grid grid-cols-1 gap-3">
               {NEIGHBORHOODS.map((n) => (
-                <div key={n} className="flex items-center space-x-3 group cursor-pointer" onClick={() => handleNeighborhoodToggle(n)}>
+                <div key={n} className="flex items-center space-x-3 group">
                   <Checkbox
                     id={n}
                     checked={filters.neighborhoods.includes(n)}
-                    onCheckedChange={() => handleNeighborhoodToggle(n)}
-                    className="rounded-none border-gray-200 data-[state=checked]:bg-black data-[state=checked]:border-black"
+                    onCheckedChange={(checked) => handleNeighborhoodChange(n, checked)}
+                    className="rounded-none"
                   />
                   <Label
                     htmlFor={n}
@@ -83,7 +83,7 @@ export function FilterSidebar({ filters, setFilters, onReset }: FilterSidebarPro
               <span className="text-xs font-mono font-medium">${filters.minPrice} - ${filters.maxPrice}</span>
             </div>
             <Slider
-              defaultValue={[filters.minPrice, filters.maxPrice]}
+              value={[filters.minPrice, filters.maxPrice]}
               max={15000}
               step={500}
               onValueChange={(value) => {
@@ -100,48 +100,48 @@ export function FilterSidebar({ filters, setFilters, onReset }: FilterSidebarPro
           <div className="space-y-4">
             <Label className="text-xs font-bold uppercase tracking-widest text-gray-400">Amenities</Label>
             <div className="space-y-3">
-              <div className="flex items-center space-x-3 group cursor-pointer" onClick={() => setFilters({ ...filters, is_pet_friendly: !filters.is_pet_friendly })}>
+              <div className="flex items-center space-x-3 group">
                 <Checkbox
                   id="pet-friendly"
                   checked={filters.is_pet_friendly}
                   onCheckedChange={(checked) => setFilters({ ...filters, is_pet_friendly: !!checked })}
-                  className="rounded-none border-gray-200 data-[state=checked]:bg-black data-[state=checked]:border-black"
+                  className="rounded-none"
                 />
                 <Label htmlFor="pet-friendly" className="text-sm font-medium cursor-pointer group-hover:text-black">Pet Friendly</Label>
               </div>
-              <div className="flex items-center space-x-3 group cursor-pointer" onClick={() => setFilters({ ...filters, has_washer: !filters.has_washer })}>
+              <div className="flex items-center space-x-3 group">
                 <Checkbox
                   id="washer"
                   checked={filters.has_washer}
                   onCheckedChange={(checked) => setFilters({ ...filters, has_washer: !!checked })}
-                  className="rounded-none border-gray-200 data-[state=checked]:bg-black data-[state=checked]:border-black"
+                  className="rounded-none"
                 />
                 <Label htmlFor="washer" className="text-sm font-medium cursor-pointer group-hover:text-black">In-Unit Washer</Label>
               </div>
-              <div className="flex items-center space-x-3 group cursor-pointer" onClick={() => setFilters({ ...filters, has_parking: !filters.has_parking })}>
+              <div className="flex items-center space-x-3 group">
                 <Checkbox
                   id="parking"
                   checked={filters.has_parking}
                   onCheckedChange={(checked) => setFilters({ ...filters, has_parking: !!checked })}
-                  className="rounded-none border-gray-200 data-[state=checked]:bg-black data-[state=checked]:border-black"
+                  className="rounded-none"
                 />
                 <Label htmlFor="parking" className="text-sm font-medium cursor-pointer group-hover:text-black">Parking Included</Label>
               </div>
-              <div className="flex items-center space-x-3 group cursor-pointer" onClick={() => setFilters({ ...filters, has_gym: !filters.has_gym })}>
+              <div className="flex items-center space-x-3 group">
                 <Checkbox
                   id="gym"
                   checked={filters.has_gym}
                   onCheckedChange={(checked) => setFilters({ ...filters, has_gym: !!checked })}
-                  className="rounded-none border-gray-200 data-[state=checked]:bg-black data-[state=checked]:border-black"
+                  className="rounded-none"
                 />
                 <Label htmlFor="gym" className="text-sm font-medium cursor-pointer group-hover:text-black">Fitness Center</Label>
               </div>
-              <div className="flex items-center space-x-3 group cursor-pointer" onClick={() => setFilters({ ...filters, has_pool: !filters.has_pool })}>
+              <div className="flex items-center space-x-3 group">
                 <Checkbox
                   id="pool"
                   checked={filters.has_pool}
                   onCheckedChange={(checked) => setFilters({ ...filters, has_pool: !!checked })}
-                  className="rounded-none border-gray-200 data-[state=checked]:bg-black data-[state=checked]:border-black"
+                  className="rounded-none"
                 />
                 <Label htmlFor="pool" className="text-sm font-medium cursor-pointer group-hover:text-black">Swimming Pool</Label>
               </div>
