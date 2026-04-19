@@ -24,7 +24,10 @@ export default function App() {
     sortBy,
     setSortBy,
     loading,
+    error,
     resultCount,
+    isEmpty,
+    emptyStateMessage,
     resetFilters,
   } = usePropertyViewModel();
 
@@ -154,9 +157,32 @@ export default function App() {
                 Updating Catalog...
               </p>
             </div>
+          ) : error ? (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex flex-col items-center justify-center py-40 text-center"
+            >
+              <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mb-6">
+                <Search className="w-8 h-8 text-red-400" />
+              </div>
+              <h3 className="text-2xl font-medium mb-2 text-red-600">
+                Unable to Load Properties
+              </h3>
+              <p className="text-muted-foreground max-w-md mx-auto mb-8">
+                {error}
+              </p>
+              <Button
+                onClick={() => window.location.reload()}
+                variant="outline"
+                className="rounded-none border-black hover:bg-black hover:text-white transition-all"
+              >
+                Retry
+              </Button>
+            </motion.div>
           ) : (
             <AnimatePresence mode="popLayout">
-              {properties.length > 0 ? (
+              {!isEmpty ? (
                 <motion.div
                   className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8"
                   initial={{ opacity: 0 }}
@@ -177,7 +203,7 @@ export default function App() {
                     <Search className="w-8 h-8 text-gray-400" />
                   </div>
                   <h3 className="text-2xl font-medium mb-2">
-                    No properties match your criteria
+                    {emptyStateMessage || 'No properties match your criteria'}
                   </h3>
                   <p className="text-muted-foreground max-w-md mx-auto mb-8">
                     Try adjusting your filters or searching for a different

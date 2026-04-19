@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { Property, FilterState } from '../types';
-import { supabase } from '../lib/supabaseMock';
+import { fetchPropertiesWithFilters, sortProperties } from '../supabase/queries';
 
 const INITIAL_FILTERS: FilterState = {
   search: '',
@@ -30,45 +30,27 @@ export function usePropertyViewModel() {
     setError(null);
     
     try {
-      let query = supabase.from('properties').select('*');
-
-      if (filters.search) {
-        query = query.ilike('title', `%${filters.search}%`);
-      }
-
-      if (filters.neighborhoods.length > 0) {
-        query = query.in('neighborhood', filters.neighborhoods);
-      }
-
-      query = query.gte('price', filters.minPrice).lte('price', filters.maxPrice);
-
-      // Dynamic scanning of boolean feature columns
-      const booleanFeatures: (keyof FilterState)[] = ['is_pet_friendly', 'has_washer', 'has_parking', 'has_gym', 'has_pool'];
-      booleanFeatures.forEach(feature => {
-        if (filters[feature]) {
-          query = query.eq(feature as keyof Property, true);
-        }
-      });
-
-      const { data, error: supabaseError } = await query;
+      const { data, error: supabaseError } = await fetchPropertiesWithFilters(filters);
 
       if (supabaseError) {
         setError(supabaseError.message || 'Failed to fetch properties');
+        setProperties([]);
       } else {
         let result = data || [];
         
-        // Apply sorting locally for the mock
-        if (sortBy === 'price-low') {
-          result = [...result].sort((a, b) => a.price - b.price);
-        } else if (sortBy === 'price-high') {
-          result = [...result].sort((a, b) => b.price - a.price);
+        // Handle empty results
+        if (result.length === 0) {
+          console.log('No properties match the current filter criteria');
         }
-        // 'newest' is default (mock data order)
+        
+        // Apply sorting
+        result = sortProperties(result, sortBy);
 
         setProperties(result);
       }
     } catch (err) {
       setError('An unexpected error occurred');
+      setProperties([]);
       console.error(err);
     } finally {
       setLoading(false);
@@ -95,9 +77,17 @@ export function usePropertyViewModel() {
 
   // --- Computed Properties ---
   const resultCount = useMemo(() => properties.length, [properties]);
+  const isEmpty = useMemo(() => properties.length === 0 && !loading, [properties, loading]);
   const hasFiltersActive = useMemo(() => {
     return JSON.stringify(filters) !== JSON.stringify(INITIAL_FILTERS) || sortBy !== 'newest';
   }, [filters, sortBy]);
+  const emptyStateMessage = useMemo(() => {
+    if (loading) return null;
+    if (error) return 'An error occurred while fetching properties. Please try again.';
+    if (isEmpty && hasFiltersActive) return 'No properties match your criteria';
+    if (isEmpty) return 'No properties available';
+    return null;
+  }, [isEmpty, loading, error, hasFiltersActive]);
 
   return {
     // Data
@@ -107,6 +97,8 @@ export function usePropertyViewModel() {
     loading,
     error,
     resultCount,
+    isEmpty,
+    emptyStateMessage,
     hasFiltersActive,
     
     // Actions
