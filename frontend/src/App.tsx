@@ -44,7 +44,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F9F9F8] text-[#1A1A1A] font-sans selection:bg-black selection:text-white">
+    <div className="flex flex-col min-h-screen bg-[#F9F9F8] text-[#1A1A1A] font-sans selection:bg-black selection:text-white">
       <Toaster position="top-center" />
       {/* Header */}
       <header className="sticky top-0 z-40 w-full bg-white/80 backdrop-blur-md border-b border-gray-100">
@@ -110,7 +110,7 @@ export default function App() {
         </div>
       </header>
 
-      <div className="max-w-[1600px] mx-auto flex">
+      <div className="flex-1 max-w-[1600px] mx-auto flex w-full">
         {/* Desktop Sidebar */}
         <aside className="hidden md:block w-80 sticky top-20 h-[calc(100vh-5rem)] overflow-hidden">
           <FilterSidebar
@@ -224,7 +224,7 @@ export default function App() {
       </div>
 
       {/* Footer */}
-      <footer className="bg-white border-t border-gray-100 py-20 px-6">
+      <footer className="mt-auto bg-white border-t border-gray-100 pt-20 pb-6 px-6">
         <div className="max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center gap-3 mb-6">
