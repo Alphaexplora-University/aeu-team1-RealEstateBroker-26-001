@@ -123,173 +123,175 @@ export function PropertyCard({
                 </Button>
               }
             />
-            <DialogContent className="sm:max-w-[600px] md:max-w-md p-0 overflow-hidden rounded-none border-none">
-              <div className="relative aspect-video">
-                <img
-                  src={property.image_url}
-                  alt={property.title}
-                  className="object-cover w-full h-full"
-                  referrerPolicy="no-referrer"
-                />
-                <div className="absolute top-4 left-4">
-                  <Badge className="bg-black text-white border-none px-4 py-1.5 text-xs font-bold uppercase tracking-widest">
-                    {property.type}
-                  </Badge>
-                </div>
-              </div>
-
-              <div className="p-8">
-                <DialogHeader className="mb-6">
-                  <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-primary mb-2">
-                    <MapPin className="w-3 h-3" />
-                    {property.neighborhood}
-                  </div>
-                  <DialogTitle className="text-3xl font-light tracking-tight mb-2">
-                    {property.title}
-                  </DialogTitle>
-                  <DialogDescription className="text-2xl font-bold text-black">
-                    ${property.price.toLocaleString()}{" "}
-                    <span className="text-sm font-normal text-muted-foreground">
-                      / month
-                    </span>
-                  </DialogDescription>
-                </DialogHeader>
-
-                <div className="grid grid-cols-3 gap-4 py-6 border-t border-b border-gray-100 mb-6">
-                  <div className="text-center">
-                    <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-1">
-                      Bedrooms
-                    </p>
-                    <p className="text-lg font-medium">{property.bedrooms}</p>
-                  </div>
-                  <div className="text-center border-l border-r border-gray-100">
-                    <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-1">
-                      Bathrooms
-                    </p>
-                    <p className="text-lg font-medium">{property.bathrooms}</p>
-                  </div>
-                  <div className="text-center">
-                    <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-1">
-                      Square Feet
-                    </p>
-                    <p className="text-lg font-medium">{property.sqft}</p>
+            <DialogContent className="max-h-[88vh] sm:max-w-[520px] p-0 overflow-y-auto rounded-none border-none">
+              <div>
+                <div className="relative h-40 shrink-0 sm:h-44">
+                  <img
+                    src={property.image_url}
+                    alt={property.title}
+                    className="object-cover w-full h-full"
+                    referrerPolicy="no-referrer"
+                  />
+                  <div className="absolute top-3 left-3">
+                    <Badge className="bg-black text-white border-none px-3 py-1 text-[10px] font-bold uppercase tracking-[0.2em]">
+                      {property.type}
+                    </Badge>
                   </div>
                 </div>
 
-                <div className="space-y-6">
-                  <div>
-                    <h4 className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3">
-                      Description
-                    </h4>
-                    <p className="text-sm leading-relaxed text-gray-600">
-                      {property.description}
-                    </p>
+                <div className="px-6 py-5 sm:px-6 sm:py-5">
+                  <DialogHeader className="mb-4">
+                    <div className="mb-1.5 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-primary">
+                      <MapPin className="w-3 h-3" />
+                      {property.neighborhood}
+                    </div>
+                    <DialogTitle className="mb-1 text-2xl font-light tracking-tight sm:text-[2rem]">
+                      {property.title}
+                    </DialogTitle>
+                    <DialogDescription className="text-xl font-bold text-black sm:text-2xl">
+                      ${property.price.toLocaleString()}{" "}
+                      <span className="text-sm font-normal text-muted-foreground">
+                        / month
+                      </span>
+                    </DialogDescription>
+                  </DialogHeader>
+
+                  <div className="mb-4 grid grid-cols-3 gap-3 border-t border-b border-gray-100 py-4">
+                    <div className="text-center">
+                      <p className="mb-1 text-[10px] font-bold uppercase tracking-widest text-gray-400">
+                        Bedrooms
+                      </p>
+                      <p className="text-base font-medium">{property.bedrooms}</p>
+                    </div>
+                    <div className="border-l border-r border-gray-100 text-center">
+                      <p className="mb-1 text-[10px] font-bold uppercase tracking-widest text-gray-400">
+                        Bathrooms
+                      </p>
+                      <p className="text-base font-medium">{property.bathrooms}</p>
+                    </div>
+                    <div className="text-center">
+                      <p className="mb-1 text-[10px] font-bold uppercase tracking-widest text-gray-400">
+                        Square Feet
+                      </p>
+                      <p className="text-base font-medium">{property.sqft}</p>
+                    </div>
                   </div>
 
-                  <div>
-                    <h4 className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-4">
-                      Key Features & Amenities
-                    </h4>
-                    <div className="grid grid-cols-2 gap-y-4 gap-x-8">
-                      <div className="flex items-center gap-3 text-sm">
-                        <Dog
-                          className={cn(
-                            "w-4 h-4",
-                            property.is_pet_friendly
-                              ? "text-black"
-                              : "text-gray-200",
-                          )}
-                        />
-                        <span
-                          className={
-                            property.is_pet_friendly
-                              ? "text-black"
-                              : "text-gray-400"
-                          }
-                        >
-                          Pet Friendly
-                        </span>
-                      </div>
-                      <div className="flex items-center gap-3 text-sm">
-                        <Wind
-                          className={cn(
-                            "w-4 h-4",
-                            property.has_washer
-                              ? "text-black"
-                              : "text-gray-200",
-                          )}
-                        />
-                        <span
-                          className={
-                            property.has_washer ? "text-black" : "text-gray-400"
-                          }
-                        >
-                          In-Unit Washer
-                        </span>
-                      </div>
-                      <div className="flex items-center gap-3 text-sm">
-                        <Car
-                          className={cn(
-                            "w-4 h-4",
-                            property.has_parking
-                              ? "text-black"
-                              : "text-gray-200",
-                          )}
-                        />
-                        <span
-                          className={
-                            property.has_parking
-                              ? "text-black"
-                              : "text-gray-400"
-                          }
-                        >
-                          Parking Included
-                        </span>
-                      </div>
-                      <div className="flex items-center gap-3 text-sm">
-                        <Dumbbell
-                          className={cn(
-                            "w-4 h-4",
-                            property.has_gym ? "text-black" : "text-gray-200",
-                          )}
-                        />
-                        <span
-                          className={
-                            property.has_gym ? "text-black" : "text-gray-400"
-                          }
-                        >
-                          Fitness Center
-                        </span>
-                      </div>
-                      <div className="flex items-center gap-3 text-sm">
-                        <Waves
-                          className={cn(
-                            "w-4 h-4",
-                            property.has_pool ? "text-black" : "text-gray-200",
-                          )}
-                        />
-                        <span
-                          className={
-                            property.has_pool ? "text-black" : "text-gray-400"
-                          }
-                        >
-                          Swimming Pool
-                        </span>
+                  <div className="space-y-5">
+                    <div>
+                      <h4 className="mb-2 text-[11px] font-bold uppercase tracking-[0.2em] text-gray-400">
+                        Description
+                      </h4>
+                      <p className="text-sm leading-7 text-gray-600">
+                        {property.description}
+                      </p>
+                    </div>
+
+                    <div>
+                      <h4 className="mb-3 text-[11px] font-bold uppercase tracking-[0.2em] text-gray-400">
+                        Key Features & Amenities
+                      </h4>
+                      <div className="grid grid-cols-2 gap-x-5 gap-y-3">
+                        <div className="flex items-center gap-2.5 text-sm">
+                          <Dog
+                            className={cn(
+                              "w-4 h-4",
+                              property.is_pet_friendly
+                                ? "text-black"
+                                : "text-gray-200",
+                            )}
+                          />
+                          <span
+                            className={
+                              property.is_pet_friendly
+                                ? "text-black"
+                                : "text-gray-400"
+                            }
+                          >
+                            Pet Friendly
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-2.5 text-sm">
+                          <Wind
+                            className={cn(
+                              "w-4 h-4",
+                              property.has_washer
+                                ? "text-black"
+                                : "text-gray-200",
+                            )}
+                          />
+                          <span
+                            className={
+                              property.has_washer ? "text-black" : "text-gray-400"
+                            }
+                          >
+                            In-Unit Washer
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-2.5 text-sm">
+                          <Car
+                            className={cn(
+                              "w-4 h-4",
+                              property.has_parking
+                                ? "text-black"
+                                : "text-gray-200",
+                            )}
+                          />
+                          <span
+                            className={
+                              property.has_parking
+                                ? "text-black"
+                                : "text-gray-400"
+                            }
+                          >
+                            Parking Included
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-2.5 text-sm">
+                          <Dumbbell
+                            className={cn(
+                              "w-4 h-4",
+                              property.has_gym ? "text-black" : "text-gray-200",
+                            )}
+                          />
+                          <span
+                            className={
+                              property.has_gym ? "text-black" : "text-gray-400"
+                            }
+                          >
+                            Fitness Center
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-2.5 text-sm">
+                          <Waves
+                            className={cn(
+                              "w-4 h-4",
+                              property.has_pool ? "text-black" : "text-gray-200",
+                            )}
+                          />
+                          <span
+                            className={
+                              property.has_pool ? "text-black" : "text-gray-400"
+                            }
+                          >
+                            Swimming Pool
+                          </span>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
 
-                <div className="mt-10 flex gap-4">
-                  <Button className="flex-1 rounded-none bg-black text-white hover:bg-gray-800 h-12 text-xs font-bold uppercase tracking-widest">
-                    Schedule a Tour
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="flex-1 rounded-none border-gray-200 h-12 text-xs font-bold uppercase tracking-widest"
-                  >
-                    Contact Agent
-                  </Button>
+                  <div className="mt-6 grid grid-cols-2 gap-3">
+                    <Button className="rounded-none bg-black text-white hover:bg-gray-800 h-11 text-[11px] font-bold uppercase tracking-[0.2em]">
+                      Schedule a Tour
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="rounded-none border-gray-200 h-11 text-[11px] font-bold uppercase tracking-[0.2em]"
+                    >
+                      Contact Agent
+                    </Button>
+                  </div>
                 </div>
               </div>
             </DialogContent>
